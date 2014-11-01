@@ -2,7 +2,8 @@
 /*
    :: REST API
    :: Free As in Beer 
-   :: Jon Svendsen 2013, j0nix@zweet.net
+   :: https://github.com/j0nix/j0nix-rest-api
+
    Requirements:
    1.	Enable mod_rewrite
    2.	Set  "AllowOverride All" in host/vhost conf

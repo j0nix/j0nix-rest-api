@@ -2,7 +2,7 @@
 /* 
 :: Some basic REST
 :: Free As in Beer 
-:: Jon Svendsen 2013, j0nix@zweet.net
+:: https://github.com/j0nix/j0nix-rest-api
 */
 class REST {
 	
