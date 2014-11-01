@@ -37,9 +37,10 @@ class API extends REST {
 
 	private $apiKey = array(
 			"apiKey" => array(
-				"EXAMPLE" //Methods allowed by this key
+				"EXAMPLE" //Functions allowed by this key
 			),
-			"apiKey-2" => array(
+			"apiKey2" => array(
+				"EXAMPLE",
 				"EXAMPLE2",
 			)
 	); 
@@ -54,15 +55,15 @@ class API extends REST {
 			$this->_prettyprint = true;
 		}
 		/* 
-			Request: http://your-url.com/API-KEY/METHOD/PARAM[/MOREPARAMS][?pretty=true] 
-			BELOW will split and evaluate above request. IF method  exists it will be called using 
+			Request: http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?pretty=true] 
+			BELOW will split and evaluate above request. If function exists it will be called using 
 			your parameter.  IF sending more than one parameter in your request, 
 			$request[2] will contain a none split parameter value like => PARAM/PARAM2 when
-			making the call to your method. USE $this->_method to identify request method.
+			making the call to your function. USE $this->_method to identify request method.
 		 */
 		if(!empty($this->_request['rquest'])) {
 
-			// split into 0=>API-KEY, 1=>METHOD, 2=>PARAM
+			// split into 0=>API-KEY, 1=>FUNCTION, 2=>PARAM
 			$request = explode("/",$this->_request['rquest'],3); 
 
 			//Verify number of parameters are 3 & that param 3 is not a empty param
@@ -71,17 +72,17 @@ class API extends REST {
 				//Correct api-key?
 				if(array_key_exists($request[0], $this->apiKey)) {
 
-					//Does your called method exist?
+					//Does your called function exist?
 					if((int)method_exists($this,$request[1]) > 0) {
 
-						//Are you allowed to use method with this key
+						//Are you allowed to use function with this key
 						if (in_array($request[1],$this->apiKey[$request[0]])) {
 
-							//Make call to Method
+							//Make call to function
 							$this->$request[1]($request[2]); 
 
-						} else $this->response('FORBIDDEN: YOUR NOT ALLOWED TO ACCESS THIS METHOD',403);
-					} else $this->response('NOT FOUND: API METHOD NOT FOUND',404);
+						} else $this->response('FORBIDDEN: YOUR NOT ALLOWED TO ACCESS THIS FUNCTION',403);
+					} else $this->response('NOT FOUND: API FUNCTION NOT FOUND',404);
 				} else $this->response('FORBIDDEN: INVALID API KEY',403);
 			} else $this->response('BAD REQUEST: NOT A VALID REQUEST',400);
 		} else $this->response("EMPTY PAGE",200);
@@ -100,7 +101,7 @@ class API extends REST {
 								array( "METADATA" => 
 									array(	"REQUEST" => $this->_method, 
 										"PARAM" => implode("/",$param), 
-										"METHOD" => __FUNCTION__), 
+										"FUNCTION" => __FUNCTION__), 
 									"DATA" => 
 									array(	"PARAM" => $param)
 								     )),200);
@@ -114,7 +115,7 @@ class API extends REST {
 								array( "METADATA" => 
 									array(	"REQUEST" => $this->_method, 
 										"PARAM" => implode("/",$param), 
-										"METHOD" => __FUNCTION__), 
+										"FUNCTION" => __FUNCTION__), 
 									"DATA" => 
 									array(	"PARAM" => $param)
 								     )),200);
@@ -125,7 +126,7 @@ class API extends REST {
 							array( "METADATA" => 
 								array(	"REQUEST" => $this->_method, 
 									"PARAM" => implode("/",$param), 
-									"METHOD" => __FUNCTION__), 
+									"FUNCTION" => __FUNCTION__), 
 								"DATA" => 
 								array(	"PARAM" => $param)
 							     )),200);
@@ -135,7 +136,7 @@ class API extends REST {
 						array( "METADATA" => 
 							array(	"REQUEST" => $this->_method, 
 								"PARAM" => implode("/",$param), 
-								"METHOD" => __FUNCTION__), 
+								"FUNCTION" => __FUNCTION__), 
 							"DATA" => 
 							array(	"PARAM" => $param)
 						     )),200);
@@ -152,7 +153,7 @@ class API extends REST {
 						array(	
 							"REQUEST" => $this->_method, 
 							"PARAM" => $param, 
-							"METHOD" => __FUNCTION__
+							"FUNCTION" => __FUNCTION__
 						     ), 
 						"DATA" => "I HAVE ACCESS"
 					     )),200);
