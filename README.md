@@ -13,4 +13,4 @@ It's a small RESTful API front returning whatever your code is producing as JSON
 
 ## How does it work
 
-* Read the code. Its pretty good commented
+* Read comments in code...
