@@ -9,7 +9,7 @@ Lightweight REST API. OOP style. For you who just wants REST and don't want to "
 
 ### How to...
 
- 1. ***Make a request**=> http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?pretty=true]*
+ 1. *http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?pretty=true]*
 
 ### How does it work
 
