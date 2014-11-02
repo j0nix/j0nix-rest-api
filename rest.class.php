@@ -163,7 +163,7 @@ class REST {
 	// make it all as json
 	protected function json($data){
 		if(is_array($data)){
-			if($this->_prettyPrint === true) $this->prettyJSON(json_encode($data)); //Pretty?
+			if($this->_prettyPrint === true) return $this->prettyJSON(json_encode($data)); //Pretty?
 			else return json_encode($data);
 		}
 	}
