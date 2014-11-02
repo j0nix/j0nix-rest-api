@@ -52,7 +52,7 @@ class API extends REST {
 	public function processRequest(){
 		//PrettyPrint?	
 		if(isset($this->_request['pretty']) && $this->_request['pretty'] === "true") {
-			$this->_prettyprint = true;
+			$this->_prettyPrint = true;
 		}
 		/* 
 			Request: http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?pretty=true] 

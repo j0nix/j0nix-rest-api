@@ -6,8 +6,8 @@
 */
 class REST {
 	
-	private $_content_type = "application/json; charset=utf-8";
-	protected $_prettyprint = false; //true = pretty JSON printing
+	private $_contentType = "application/json; charset=utf-8";
+	protected $_prettyPrint = false; //true = pretty JSON printing
 	protected $_request = array();
 	protected $_method = "";	
 	private $_code = 200;
@@ -16,15 +16,17 @@ class REST {
 	protected function __construct(){
 		$this->inputs();
 	}
+
 	//respond result
 	protected function response($data,$status){
 		$this->_code = ($status)?$status:200;
-		$this->set_headers();
+		$this->setHeaders();
 		echo $data;
 		exit;
 	}
+
 	//translate respond header numbers to text
-	private function get_status_message(){
+	private function getStatusMessage(){
 		$status = array(
 				100 => 'Continue',  
 				101 => 'Switching Protocols',  
@@ -70,17 +72,13 @@ class REST {
 		return ($status[$this->_code]) ? $status[$this->_code] : $status[500];
 	}
 
-	private function get_request_method(){
-		return $_SERVER['REQUEST_METHOD']; 
-		//Identify request method. POST,GET,PUT or DELETE
-	}
-
 	// Identify request method, Common for REST API are GET,POST,PUT,DELETE. 
 	private function inputs(){
-		switch($this->get_request_method()){ // Make switch case so we can add additional 
+		switch($_SERVER['REQUEST_METHOD']){ // Make switch case so we can add additional 
 			case "GET":
 				$this->_request = $this->cleanInputs($_REQUEST); //or $_GET
 				$this->_method = "GET";
+				//$this->logRequest();
 				break;
 			case "POST":
 				$this->_request = $this->cleanInputs($_REQUEST); //or $_GET
@@ -113,7 +111,7 @@ class REST {
 		}else{
 			if(get_magic_quotes_gpc()){ 
 			// Returns 0 if magic_quotes_gpc is off, 
-			// 1 otherwise. Always returns FALSE as of PHP 5.4.0.
+			// 1 otherwise. Always returns FALSE as of PHP 5.4
 				$data = trim(stripslashes($data));
 			}
 			$data = strip_tags($data);
@@ -122,13 +120,13 @@ class REST {
 		return $clean_input;
 	}		
 
-	private function set_headers() {
-		header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
-		header("Content-Type:".$this->_content_type);
+	private function setHeaders() {
+		header("HTTP/1.1 ".$this->_code." ".$this->getStatusMessage());
+		header("Content-Type:".$this->_contentType);
 	}
 	
-	// As of php 5.4+ you could use JSON_PRETTY_PRINT option with json_encode() insead of below code...
-	private function json_pretty($json) { 
+	// As of php 5.4 you could use JSON_PRETTY_PRINT option with json_encode() insead of below code...
+	private function prettyJSON($json) { 
 
 		$tokens = preg_split('|([\{\}\]\[,])|', $json, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$result = '';
@@ -162,17 +160,17 @@ class REST {
 		}
 		return $result;
 	}
-
+	// make it all as json
 	protected function json($data){
 		if(is_array($data)){
-			if($this->_prettyprint === false) return json_encode($data);
-			else return $this->json_pretty(json_encode($data));
+			if($this->_prettyPrint === true) $this->prettyJSON(json_encode($data)); //Pretty?
+			else return json_encode($data);
 		}
 	}
 
 	private function logRequest() { //Do some simple syslog for requests
 		//Uncomment or set 'error_log = syslog' to log to system default syslog location
-		openlog(basename(__FILE__), LOG_NDELAY, LOG_LOCAL0);
+		openlog(basename(__FILE__), LOG_NDELAY, LOG_LOCAL5);
 		syslog(LOG_NOTICE, get_class($this)." ".$_SERVER['REMOTE_ADDR']." did $this->_method with request: ".$this->_request['rquest']."\n");
 		closelog;
 	}
