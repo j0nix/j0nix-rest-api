@@ -8,6 +8,7 @@
    1.	Enable mod_rewrite
    2.	Set  "AllowOverride All" in host/vhost conf
    3.	Create a .htaccess file with below content and place in folder where this file exists
+   4.	j0nix-rest-api/rest.class.php
 
    RewriteEngine On
 
@@ -51,11 +52,11 @@ class API extends REST {
 
 	public function processRequest(){
 		//PrettyPrint?	
-		if(isset($this->_request['pretty']) && $this->_request['pretty'] === "true") {
+		if(isset($this->_request['prettyprint'])) {
 			$this->_prettyPrint = true;
 		}
 		/* 
-			Request: http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?pretty=true] 
+			Request: http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?prettyprint] 
 			BELOW will split and evaluate above request. If function exists it will be called using 
 			your parameter.  IF sending more than one parameter in your request, 
 			$request[2] will contain a none split parameter value like => PARAM/PARAM2 when
