@@ -8,7 +8,7 @@ j0nix-rest-api
 
 ### How to...
 
-*http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?pretty=true]*
+*http://your-url.com/API-KEY/FUNCTION/PARAM[/MOREPARAMS][?prettyprint]*
 
 ### How does it work
 
